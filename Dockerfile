@@ -2,9 +2,21 @@ FROM webdevops/php-nginx:7.4-alpine
 
 LABEL maintainer="codesaber@gmail.com"
 
+# adding support for MS SQL
 RUN apk update && apk add --no-cache \
         autoconf \
-        build-base 
+        build-base \
+        && echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
+        && apk update \
+        && apk add freetds freetds-dev unixodbc unixodbc-dev \
+        && pecl install sqlsrv \
+        && pecl install pdo_sqlsrv \
+        && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/10_pdo_sqlsrv.ini \
+        && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/00_sqlsrv.ini 
+
+#&& cat > /etc/apk/repositories << EOF; \
+#http://dl-cdn.alpinelinux.org/alpine/edge/community \
+#EOF \
 
 WORKDIR /usr/local/src
 RUN git clone --depth=1 https://github.com/jbboehr/php-psr.git
