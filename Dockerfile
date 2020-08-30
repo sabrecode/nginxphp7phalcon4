@@ -12,11 +12,7 @@ RUN apk update && apk add --no-cache \
         && pecl install sqlsrv \
         && pecl install pdo_sqlsrv \
         && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/10_pdo_sqlsrv.ini \
-        && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/00_sqlsrv.ini 
-
-#&& cat > /etc/apk/repositories << EOF; \
-#http://dl-cdn.alpinelinux.org/alpine/edge/community \
-#EOF \
+        && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/00_sqlsrv.ini
 
 WORKDIR /usr/local/src
 RUN git clone --depth=1 https://github.com/jbboehr/php-psr.git
