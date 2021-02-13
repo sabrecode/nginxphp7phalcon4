@@ -30,4 +30,8 @@ WORKDIR /usr/local/src/cphalcon/build
 RUN ./install
 WORKDIR /
 RUN rm -rf /usr/local/src/cphalcon \
-    && docker-php-ext-enable phalcon 
+    && docker-php-ext-enable phalcon
+RUN curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.6.1.1-1_amd64.apk \
+    && curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.6.1.1-1_amd64.apk \
+        && apk add --allow-untrusted msodbcsql17_17.6.1.1-1_amd64.apk \
+	    && apk add --allow-untrusted mssql-tools_17.6.1.1-1_amd64.apk
